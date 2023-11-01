@@ -1,0 +1,5 @@
+﻿  Tabuleiro.cpp
+C:\Users\cauaa\Documents\projects\c++ advanced\ArduinoTicTacToe\Tabuleiro.cpp(32,9): warning C4101: 'y': unreferenced local variable
+C:\Users\cauaa\Documents\projects\c++ advanced\ArduinoTicTacToe\Tabuleiro.cpp(32,6): warning C4101: 'x': unreferenced local variable
+C:\Users\cauaa\Documents\projects\c++ advanced\ArduinoTicTacToe\Tabuleiro.cpp(114): warning C4172: returning address of local variable or temporary: arr
+  ArduinoTicTacToe.vcxproj -> C:\Users\cauaa\Documents\projects\c++ advanced\ArduinoTicTacToe\x64\Debug\ArduinoTicTacToe.exe
