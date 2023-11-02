@@ -15,6 +15,8 @@ class Individuo
 		int vitorias = 0;
 		int derrotas = 0;
 		int empates = 0;
+		int jogos = 0;
+
 		int pontuacao = 0;
 
 		Individuo();
@@ -32,5 +34,6 @@ class Individuo
 		void premiarVitoria();
 		void premiarDerrota();
 		void premiarEmpate();
+		void contarJogada();
 };
 

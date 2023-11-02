@@ -115,14 +115,23 @@ void Individuo::mutacao() {
 void Individuo::premiarVitoria() {
 	vitorias++;
 	pontuacao += 3;
+	contarJogada();
+
 }
 
 void Individuo::premiarDerrota() {
 	derrotas++;
 	pontuacao += 0;
+	contarJogada();
 }
 
 void Individuo::premiarEmpate() {
 	empates++;
 	pontuacao += 1;
+	contarJogada();
+}
+
+void Individuo::contarJogada()
+{
+	jogos++;
 }

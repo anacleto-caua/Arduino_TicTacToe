@@ -250,8 +250,12 @@ void Tabuleiro::premiar(Individuo& a, Individuo& b){
 		a.premiarDerrota();
 		b.premiarVitoria();
 	}
-	else {
+	else if(vencedorRound ==0){
 		a.premiarEmpate();
 		b.premiarEmpate();
+	}
+	else {
+		a.contarJogada();
+		b.contarJogada();
 	}
 }

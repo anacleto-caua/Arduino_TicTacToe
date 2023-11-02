@@ -15,6 +15,8 @@ public:
 	float removerPercent;
 	float mutacaoPercent;
 	float pontuacaoPercent;
+
+	float percentMelhorIndividuo;
 	
 	vector<Individuo> individuos;
 
@@ -37,5 +39,7 @@ public:
 	void selecao();
 
 	void apresentacao();
+
+	void salvaPorcentMelhorIndividuo();
 };
 

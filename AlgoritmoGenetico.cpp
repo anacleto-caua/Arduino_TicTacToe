@@ -10,6 +10,8 @@ AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float remover
 	this->removerPercent = removerPercent;
 	this->mutacaoPercent = mutacaoPercent;
 	this->pontuacaoPercent = pontuacaoPercent;
+	
+	this->percentMelhorIndividuo = 0.0;
 }
 
 void AlgoritmoGenetico::gerarPopulacaoInicial()
@@ -23,10 +25,11 @@ void AlgoritmoGenetico::gerarPopulacaoInicial()
 void AlgoritmoGenetico::competir()
 {
 	Tabuleiro tabuleiro = Tabuleiro();
-	int n = 0;
 	for (int i = 0; i < numIndividuos; i++) {
 		for (int j = 0; j < numIndividuos; j++) {
-			tabuleiro.competir(individuos[i], individuos[j]);
+			if (i != j) {
+				tabuleiro.competir(individuos[i], individuos[j]);
+			}
 		}
 	}
 }
@@ -85,7 +88,7 @@ void AlgoritmoGenetico::cruzarPopulacao()
 
 void AlgoritmoGenetico::selecao()
 {	
-	int pontuacaoMaxima = numIndividuos * numIndividuos * 3;
+	int pontuacaoMaxima = numIndividuos * 2 * 3;
 	gerarPopulacaoInicial();
 
 	while (individuos[0].pontuacao <= pontuacaoMaxima * pontuacaoPercent) {
@@ -96,6 +99,8 @@ void AlgoritmoGenetico::selecao()
 		ordenarPopulacao();
 
 		apresentacao();
+
+		salvaPorcentMelhorIndividuo();
 
 		eliminarPopulacao();
 
@@ -110,13 +115,18 @@ void AlgoritmoGenetico::apresentacao()
 
 	cout << "Round: " << rounds << endl;
 	cout << "Melhor individuo" << endl;
-	cout << "Pontuacao: " << individuos[0].pontuacao << endl;
-	cout << "Jogadas: " << individuos[0].vitorias + individuos[0].empates + individuos[0].derrotas << endl;
+	cout << "Pontuacao: " << individuos[0].pontuacao << "/" << numIndividuos * 2 * 3 << endl;
+	cout << "Jogadas: " << individuos[0].jogos << endl;
 	cout << endl << endl;
 	cout << "Pior individuo" << endl;
-	cout << "Pontuacao: " << individuos[numIndividuos-1].pontuacao << endl;
-	cout << "Jogadas: " << individuos[numIndividuos - 1].vitorias + individuos[numIndividuos - 1].empates + individuos[numIndividuos - 1].derrotas << endl;
+	cout << "Pontuacao: " << individuos[numIndividuos-1].pontuacao << "/" << numIndividuos * 2 * 3 << endl;
+	cout << "Jogadas: " << individuos[numIndividuos - 1].jogos << endl;
 
 	cout << endl << endl;
 
+}
+
+void AlgoritmoGenetico::salvaPorcentMelhorIndividuo()
+{
+	this->percentMelhorIndividuo = individuos[0].pontuacao / numIndividuos * 2 * 3;
 }
