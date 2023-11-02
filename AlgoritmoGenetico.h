@@ -14,10 +14,11 @@ public:
 	int numIndividuos;
 	float removerPercent;
 	float mutacaoPercent;
+	float pontuacaoPercent;
 	
 	vector<Individuo> individuos;
 
-	AlgoritmoGenetico(int genes, int numIndividuos,  float removerPercent, float mutacaoPercent);
+	AlgoritmoGenetico(int genes, int numIndividuos,  float removerPercent, float mutacaoPercent, float pontuacaoPercent);
 
 	void gerarPopulacaoInicial();
 

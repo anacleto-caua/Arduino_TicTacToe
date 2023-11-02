@@ -1,9 +1,25 @@
 #include "Tabuleiro.h"
 #include <iostream>
+#ifdef _WIN32
+#include <windows.h>
+#define sleep(x) Sleep(1000 * (x))
+#else
+#include <unistd.h>
+#endif
 
-Tabuleiro::Tabuleiro()
-{
-	limpaTabuleiro();
+
+Tabuleiro::Tabuleiro(){
+
+	this->vencedorRound = -1;
+
+	this->vitoriasPrimeiro = 0;
+	this->vitoriasSegundo = 0;
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			tabuleiro[i][j] = 0;
+		}
+	}
 }
 
 void Tabuleiro::limpaTabuleiro()
@@ -18,9 +34,9 @@ void Tabuleiro::limpaTabuleiro()
 	}
 }
 
-void Tabuleiro::competir(Individuo& a, Individuo& b) {
-	a = a;
-	b = b;
+void Tabuleiro::competir(Individuo& a, Individuo& b) 
+{
+	this->vencedorRound = -1;
 	
 	int genesA = 0;
 	int genesB = 0;
@@ -28,42 +44,40 @@ void Tabuleiro::competir(Individuo& a, Individuo& b) {
 	int jogadaA = -1;
 	int jogadaB = -1;
 
-	int* move;
-	int x, y;
+	array<int, 2> move;
 	while (genesA < a.genes && genesB < b.genes) {
 		
-		while (!isJogadaValida(jogadaA)) {
+		while (!isJogadaValida(jogadaA) && genesA < a.genes) {
 			jogadaA = a.dnaX[genesA];
 			genesA++;
 		}
 		
-		if (terminou()) {
-			break;
-		}
 		move = codigoParaXY(jogadaA);
 		tabuleiro[move[0]][move[1]] = 1;
 
-		while (!isJogadaValida(jogadaB)) {
+		if (terminou()) {
+			break;
+		}
+
+		while (!isJogadaValida(jogadaB) && genesB < b.genes) {
 			jogadaB = b.dnaY[genesB];
 			genesB++;
 		}
 	
-		if (terminou()) {
-			break;
-		}
 		move = codigoParaXY(jogadaB);
 		tabuleiro[move[0]][move[1]] = 2;
 
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				cout << tabuleiro[i][j] << " ";
-			}
-			cout << endl;
+		if (terminou()) {
+			break;
 		}
+
 	}
+
+	premiar(a, b);
+	limpaTabuleiro();
 }
 
-int* Tabuleiro::codigoParaXY(int jogada) {
+array<int, 2> Tabuleiro::codigoParaXY(int jogada) {
 	int x = 0;
 	int y = 0;
 
@@ -109,9 +123,8 @@ int* Tabuleiro::codigoParaXY(int jogada) {
 		break;
 	}
 
-	int arr[2] = {x, y};
 
-	return arr;
+	return {x, y};
 }
 
 bool Tabuleiro::isJogadaValida(int jogada) {
@@ -169,9 +182,19 @@ bool Tabuleiro::isJogadaValida(int jogada) {
 }
 
 bool Tabuleiro::terminou() {
-	int linha0 = 0;
-	int linha1 = 0;
-	int linha2 = 0;
+	//DeuVelha
+	int preenchidos = 0;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (tabuleiro[i][j] != 0) {
+				preenchidos++;
+			}
+		}
+	}
+	if (preenchidos >= 9) {
+		this->vencedorRound = 0;
+	}
+
 	int vencedor = 0;
 
 	for (int i = 0; i < 3; i++) {
@@ -204,20 +227,6 @@ bool Tabuleiro::terminou() {
 		return true;
 	}
 
-	//DeuVelha
-	int preenchidos = 0;
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			if (tabuleiro[i][j] != 0) {
-				preenchidos++;
-			}
-		}
-	}
-	if (preenchidos >= 9) {
-		this->vencedorRound = 0;
-		return true;
-	}
-
 	return false;
 }
 
@@ -232,7 +241,7 @@ int Tabuleiro::vencedorDaLinha(int a, int b, int c) {
 	return 0;
 }
 
-void Tabuleiro::premiar(){
+void Tabuleiro::premiar(Individuo& a, Individuo& b){
 	if (vencedorRound == 1) {
 		a.premiarVitoria();
 		b.premiarDerrota();

@@ -1,14 +1,12 @@
 #pragma once
 #include <vector>
+#include <array>
 #include "Individuo.h"
 
 class Tabuleiro
 {
 public:
 
-	Individuo a;
-	Individuo b;
-	
 	int vitoriasPrimeiro;
 	int vitoriasSegundo;
 
@@ -22,7 +20,7 @@ public:
 
 	void competir(Individuo& a, Individuo& b);
 
-	int* codigoParaXY(int jogada);
+	array<int, 2> codigoParaXY(int jogada);
 
 	bool isJogadaValida(int jogada);
 
@@ -30,7 +28,7 @@ public:
 	
 	int vencedorDaLinha(int a, int b, int c);
 
-	void premiar();
+	void premiar(Individuo& a, Individuo& b);
 
 };
 

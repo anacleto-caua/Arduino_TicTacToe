@@ -1,7 +1,7 @@
 #include "AlgoritmoGenetico.h"
 #include <iostream>
 
-AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float removerPercent, float mutacaoPercent)
+AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float removerPercent, float mutacaoPercent, float pontuacaoPercent)
 {
 	rounds = 0;
 
@@ -9,6 +9,7 @@ AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float remover
 	this->numIndividuos = numIndividuos;
 	this->removerPercent = removerPercent;
 	this->mutacaoPercent = mutacaoPercent;
+	this->pontuacaoPercent = pontuacaoPercent;
 }
 
 void AlgoritmoGenetico::gerarPopulacaoInicial()
@@ -22,9 +23,9 @@ void AlgoritmoGenetico::gerarPopulacaoInicial()
 void AlgoritmoGenetico::competir()
 {
 	Tabuleiro tabuleiro = Tabuleiro();
-
+	int n = 0;
 	for (int i = 0; i < numIndividuos; i++) {
-		for (int j = 0;j < numIndividuos; j++) {
+		for (int j = 0; j < numIndividuos; j++) {
 			tabuleiro.competir(individuos[i], individuos[j]);
 		}
 	}
@@ -86,23 +87,19 @@ void AlgoritmoGenetico::selecao()
 {	
 	int pontuacaoMaxima = numIndividuos * numIndividuos * 3;
 	gerarPopulacaoInicial();
-	while (individuos[0].pontuacao <= pontuacaoMaxima * 0.7) {
+
+	while (individuos[0].pontuacao <= pontuacaoMaxima * pontuacaoPercent) {
+		limparPontuacaoPopulacao();
+
 		competir();
-		cout << "Tamanho: " << individuos.size() << endl;
 
 		ordenarPopulacao();
-		cout << "Tamanho: " << individuos.size() << endl;
 
 		apresentacao();
 
-		limparPontuacaoPopulacao();
-		cout << "Tamanho: " << individuos.size() << endl;
-
 		eliminarPopulacao();
-		cout << "Tamanho: " << individuos.size() << endl;
 
 		cruzarPopulacao();
-		cout << "Tamanho: " << individuos.size() << endl;
 
 		rounds++;
 	}
@@ -110,12 +107,16 @@ void AlgoritmoGenetico::selecao()
 
 void AlgoritmoGenetico::apresentacao()
 {
-	cout << "Tamanho: " << individuos.size() << endl;
 
 	cout << "Round: " << rounds << endl;
 	cout << "Melhor individuo" << endl;
 	cout << "Pontuacao: " << individuos[0].pontuacao << endl;
 	cout << "Jogadas: " << individuos[0].vitorias + individuos[0].empates + individuos[0].derrotas << endl;
+	cout << endl << endl;
 	cout << "Pior individuo" << endl;
 	cout << "Pontuacao: " << individuos[numIndividuos-1].pontuacao << endl;
+	cout << "Jogadas: " << individuos[numIndividuos - 1].vitorias + individuos[numIndividuos - 1].empates + individuos[numIndividuos - 1].derrotas << endl;
+
+	cout << endl << endl;
+
 }
