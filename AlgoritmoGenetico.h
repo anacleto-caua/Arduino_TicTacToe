@@ -36,10 +36,13 @@ public:
 
 	void cruzarPopulacao();
 
-	void selecao();
+	array<vector<array<int, 2>>, 2> selecao();
 
 	void apresentacao();
 
 	void salvaPorcentMelhorIndividuo();
+
+	array<vector<array<int, 2>>, 2> jogarContraAleatorio();
+
 };
 

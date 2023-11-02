@@ -11,5 +11,11 @@ int main()
     
     AlgoritmoGenetico ag = AlgoritmoGenetico(genes, numIndividuos, removerPercent, mutacaoPercent, pontuacaoPercent);
 
+    array<vector<array<int, 2>>, 2> historico;
+
     ag.selecao();
+
+    while (true) {
+        historico = ag.jogarContraAleatorio();
+    }
 }

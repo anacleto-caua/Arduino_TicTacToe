@@ -77,6 +77,51 @@ void Tabuleiro::competir(Individuo& a, Individuo& b)
 	limpaTabuleiro();
 }
 
+array<vector<array<int, 2>>, 2> Tabuleiro::competirContraAleatorio(Individuo a, Individuo b)
+{
+	this->vencedorRound = -1;
+
+	int genesA = 0;
+	int genesB = 0;
+
+	int jogadaA = -1;
+	int jogadaB = -1;
+	
+	array<int, 2> move;
+	
+	array<vector<array<int, 2>>, 2> historico;
+
+	while (genesA < a.genes && genesB < b.genes) {
+
+		while (!isJogadaValida(jogadaA) && genesA < a.genes) {
+			jogadaA = a.dnaX[genesA];
+			genesA++;
+		}
+
+		move = codigoParaXY(jogadaA);
+		tabuleiro[move[0]][move[1]] = 1;
+		historico[0].push_back(move);
+
+		if (terminou()) {
+			break;
+		}
+
+		while (!isJogadaValida(jogadaB) && genesB < b.genes) {
+			jogadaB = b.dnaY[genesB];
+			genesB++;
+		}
+
+		move = codigoParaXY(jogadaB);
+		tabuleiro[move[0]][move[1]] = 2;
+		historico[1].push_back(move);
+
+		if (terminou()) {
+			break;
+		}
+	}
+	return historico;
+}
+
 array<int, 2> Tabuleiro::codigoParaXY(int jogada) {
 	int x = 0;
 	int y = 0;

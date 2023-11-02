@@ -20,6 +20,8 @@ public:
 
 	void competir(Individuo& a, Individuo& b);
 
+	array<vector<array<int, 2>>, 2> competirContraAleatorio(Individuo a, Individuo b);
+
 	array<int, 2> codigoParaXY(int jogada);
 
 	bool isJogadaValida(int jogada);

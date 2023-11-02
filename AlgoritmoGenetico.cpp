@@ -108,6 +108,7 @@ void AlgoritmoGenetico::selecao()
 
 		rounds++;
 	}
+
 }
 
 void AlgoritmoGenetico::apresentacao()
@@ -129,4 +130,18 @@ void AlgoritmoGenetico::apresentacao()
 void AlgoritmoGenetico::salvaPorcentMelhorIndividuo()
 {
 	this->percentMelhorIndividuo = individuos[0].pontuacao / numIndividuos * 2 * 3;
+}
+
+array<vector<array<int, 2>>, 2> AlgoritmoGenetico::jogarContraAleatorio()
+{
+	Individuo melhor = individuos[0];
+	Tabuleiro tabuleiro = Tabuleiro();
+	Individuo ind;
+	array<vector<array<int, 2>>, 2> historico;
+
+	ind = Individuo(melhor.genes);
+	historico = tabuleiro.competirContraAleatorio(melhor, ind);
+
+	return historico;
+	
 }
